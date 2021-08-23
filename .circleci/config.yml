@@ -1,0 +1,34 @@
+version: 2.1
+jobs:
+   build:
+     docker:
+       - image: circleci/node:latest
+     steps:
+       - checkout
+       - run: npm install
+       - run: CI=true npm run build
+   test:
+     docker:
+       - image: circleci/node:latest
+     steps:
+       - checkout
+       - run: npm install
+       - run: npm run test
+   hithere:
+     docker:
+       - image: circleci/node:latest
+     steps:
+       - checkout
+       - run: echo "Hellloooo!"
+   ZERO:
+     run: echo "Z.E.R.O - 1 Systems Initiated"
+workflows:
+  version: 2
+  build-test-and-lint:
+    jobs:
+      - ZERO
+      - build
+      - hithere
+      - test:
+          requires:
+            - hithere
